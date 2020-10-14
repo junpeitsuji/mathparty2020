@@ -9,7 +9,7 @@
     <p><b>#マスパーティをみよう の現在の企画</b></p>
     <p><b>現在時刻:</b> <span id="date"></span></p>
     <p><b>企画名:</b> <span id="name"></span></p>
-    <p><b>URL:</b> <span id="url"></span></p>
+    <p><b>URL:</b> <span id="url"></span>（<b>動画内時刻：</b><span id="elappsed"></span>）</p>
     </div>
 </body>
 <script>
@@ -95,6 +95,7 @@ window.onload = function() {
                 document.getElementById("name").innerHTML = ""+name;
                 if(t_base >= 0){
                     document.getElementById("url").innerHTML = "<a href=\""+url+"\" target=\"_blank\">"+url+"</a>";
+                    document.getElementById("elappsed").innerHTML = parseInt(elappsed/60)+":"+(elappsed%60);
                 }
                 break;
             }
