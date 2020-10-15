@@ -96,7 +96,7 @@ window.onload = function() {
                 document.getElementById("name").innerHTML = ""+name;
                 if(t_base >= 0){
                     document.getElementById("url").innerHTML = "<a href=\""+url+"\" target=\"_blank\">"+url+"</a>";
-                    document.getElementById("elappsed").innerHTML = parseInt(elappsed/60)+":"+(elappsed%60);
+                    document.getElementById("elappsed").innerHTML = parseInt((t_base + elappsed)/3600)+":"+(parseInt((t_base + elappsed)/60))%60+":"+((t_base + elappsed)%60);
                 }
                 break;
             }
