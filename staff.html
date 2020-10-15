@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>#マスパーティをみよう 現在の企画</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div style="font-size: 120%; border: 1px solid; padding-left: 10px;">
+    <p><b>#マスパーティをみよう の現在の企画</b></p>
+    <p><b>現在時刻:</b> <span id="date"></span></p>
+    <p><b>企画名:</b> <span id="name"></span></p>
+    <p><b>URL:</b> <span id="url"></span></p>
+    <p><b>動画内時刻：</b><span id="elappsed"></span></p>
+    </div>
+</body>
+<script>
+
+var schedule = [
+    [1, 19, 3, 55, "（#マスパーティをみよう は終了しました。ご視聴ありがとうございました。）", "", -1],
+    [1, 18, 45, 3, "閉会式", "https://www.youtube.com/watch?v=75dVmSWxXeE&t=", 28623],
+    [1, 15, 31, 45, "ロマンティック数学ナイトプライム ゼータ", "https://www.youtube.com/watch?v=75dVmSWxXeE&t=", 17025],
+    [1, 15, 7, 40, "数学デー（Part 3）", "https://www.youtube.com/watch?v=75dVmSWxXeE&t=", 15580],
+    [1, 13, 59, 55, "数学イベント主催者座談会", "https://www.youtube.com/watch?v=75dVmSWxXeE&t=", 11515],
+    [1, 13, 2, 47, "数学デー（Part 2）", "https://www.youtube.com/watch?v=75dVmSWxXeE&t=", 8087],
+    [1, 11, 1, 0, "数学ゲーム大会 盤上編", "https://www.youtube.com/watch?v=75dVmSWxXeE&t=", 780],
+    [1, 10, 48, 0, "Part 3開始", "https://www.youtube.com/watch?v=75dVmSWxXeE&t=", 0],
+    [1, 10, 43, 50, "（YouTubeアーカイブURLをPart2からPart3へ切り替え中。少々お待ちください。）", "", -1],
+    [1, 10, 17, 50, "数学デー（Part 1）", "https://www.youtube.com/watch?v=6yPdf4RjZSk&t=", 38270],
+    [1, 7, 49, 27, "素数大富豪大会 マスパーティ杯 ジュニアの部", "https://www.youtube.com/watch?v=6yPdf4RjZSk&t=", 29367],
+    [1, 5, 47, 24, "素数大富豪で遊ぼう会（深夜企画）", "https://www.youtube.com/watch?v=6yPdf4RjZSk&t=", 22044],
+    [1, 5, 35, 40, "素数大富豪大会 マスパーティ杯 一般の部（表彰式）", "https://www.youtube.com/watch?v=6yPdf4RjZSk&t=", 21340],
+    [1, 5, 12, 15, "素数大富豪大会 マスパーティ杯 一般の部（決勝戦）", "https://www.youtube.com/watch?v=6yPdf4RjZSk&t=", 19935],
+    [0, 23, 40, 0, "素数大富豪大会 マスパーティ杯 一般の部", "https://www.youtube.com/watch?v=6yPdf4RjZSk&t=", 0],
+    [0, 23, 37, 41, "（YouTubeアーカイブURLをPart1からPart2へ切り替え中。少々お待ちください。）", "", -1],
+    [0, 21, 40, 25, "素数大富豪大会 マスパーティ杯 一般の部", "https://www.youtube.com/watch?v=ibswxeRKDYI&t=", 33010],
+    [0, 21, 16, 23, "素数大富豪大会 マスパーティ杯 一般の部（説明）", "https://www.youtube.com/watch?v=ibswxeRKDYI&t=", 31568],
+    [0, 20, 16, 22, "数学ラジオリレー（すうがくぶんかさん）", "https://www.youtube.com/watch?v=ibswxeRKDYI&t=", 27967],
+    [0, 19, 48, 53, "数学ラジオリレー（暗黒通信団さん）", "https://www.youtube.com/watch?v=ibswxeRKDYI&t=", 26318],
+    [0, 19, 14, 10, "数学ラジオリレー（パヤシさん）", "https://www.youtube.com/watch?v=ibswxeRKDYI&t=", 24235],
+    [0, 16, 00, 20, "第16回 日曜数学会", "https://www.youtube.com/watch?v=ibswxeRKDYI&t=", 12605],
+    [0, 15, 33, 25, "数学デー（説明）", "https://www.youtube.com/watch?v=ibswxeRKDYI&t=", 11000],
+    [0, 13, 27, 20, "数学カフェ 重み付き射影空間と可積分系", "https://www.youtube.com/watch?v=ibswxeRKDYI&t=", 3425],
+    [0, 13, 0, 0, "開会式", "https://www.youtube.com/watch?v=ibswxeRKDYI&t=", 1785],
+    [0, 0, 0, 0, "（準備中・13:00より開会式が始まります。）", "", -1],
+];
+
+window.onload = function() {
+    setInterval(function(){
+        var current = new Date();
+        current.setSeconds(current.getSeconds() + 30);
+
+        var target = document.getElementById("date");
+
+        var yy = current.getFullYear();
+        var mm = current.getMonth()+1;
+        var dd = current.getDate();
+        var hh = current.getHours();
+        var min = current.getMinutes();
+        var sec = current.getSeconds();
+
+        var day1or2 = (dd%2==1)? "Day 1" : "Day 2"; 
+
+        target.innerHTML = yy + "年" + mm + "月" + dd + "日" + hh + "時" + min + "分" + sec + "秒 <b>("+day1or2+")</b>";
+
+        for(var i=0; i<schedule.length; i++){
+            var time = schedule[i];
+
+            var day = time[0]+1;
+            var name = time[4];
+            var url_base = time[5];
+            var t_base = time[6];
+
+            var current_year = current.getFullYear();
+            var current_month = current.getMonth();
+            var current_day = current.getDate();
+            if(current_day % 2 == 0){  // 奇数日がDay1, 偶数日がDay2
+                current_day -= 1;
+            }
+
+            var date2 = new Date(current_year, current_month, current_day+time[0],time[1],time[2],time[3]);
+
+            //console.log(current);
+            //console.log(date2);
+
+            var day_diff = current.getDate() - date2.getDate();
+            //console.log(day_diff);
+
+            var elappsed = parseInt( (current.getTime() - date2.getTime())/1000 );
+            //console.log(elappsed);
+
+            if(day_diff >=0 && elappsed >= 0){
+                //console.log("Day: " + day);
+                //console.log("企画名: " + name);
+                var url = url_base + (t_base + elappsed) + "s";
+                //console.log(url);
+
+                document.getElementById("name").innerHTML = ""+name;
+                if(t_base >= 0){
+                    document.getElementById("url").innerHTML = "<a href=\""+url+"\" target=\"_blank\">"+url+"</a>";
+                    document.getElementById("elappsed").innerHTML = parseInt((t_base + elappsed)/3600)+":"+(parseInt((t_base + elappsed)/60))%60+":"+((t_base + elappsed)%60);
+                }
+                break;
+            }
+        }
+
+    }, 1000);
+}
+</script>
+</html>
