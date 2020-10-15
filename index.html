@@ -44,6 +44,10 @@ var schedule = [
     [0, 0, 0, 0, "（準備中・13:00より開会式が始まります。）", "", -1],
 ];
 
+function zero_padding(num){
+    return ( '00' + num ).slice( -2 );
+}
+
 window.onload = function() {
     setInterval(function(){
         var current = new Date();
@@ -59,7 +63,7 @@ window.onload = function() {
 
         var day1or2 = (dd%2==1)? "Day 1" : "Day 2"; 
 
-        target.innerHTML = yy + "年" + mm + "月" + dd + "日" + hh + "時" + min + "分" + sec + "秒 <b>("+day1or2+")</b>";
+        target.innerHTML = yy + "年" + zero_padding(mm) + "月" + zero_padding(dd) + "日" + zero_padding(hh) + "時" + zero_padding(min) + "分" + zero_padding(sec) + "秒 <b>("+day1or2+")</b>";
 
         for(var i=0; i<schedule.length; i++){
             var time = schedule[i];
@@ -96,8 +100,14 @@ window.onload = function() {
                 document.getElementById("name").innerHTML = ""+name;
                 if(t_base >= 0){
                     document.getElementById("url").innerHTML = "<a href=\""+url+"\" target=\"_blank\">"+url+"</a>";
-                    document.getElementById("elappsed").innerHTML = parseInt((t_base + elappsed)/3600)+":"+(parseInt((t_base + elappsed)/60))%60+":"+((t_base + elappsed)%60);
+                    var time_string = parseInt((t_base + elappsed)/3600)+":"+zero_padding((parseInt((t_base + elappsed)/60))%60)+":"+zero_padding((t_base + elappsed)%60);
+                    document.getElementById("elappsed").innerHTML = time_string;
                 }
+                else{
+                    document.getElementById("url").innerHTML = "";
+                    document.getElementById("elappsed").innerHTML ="";
+                }
+
                 break;
             }
         }
